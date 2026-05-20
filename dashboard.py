@@ -445,12 +445,28 @@ elif halaman == "💡 Rekomendasi Sehat":
         else:
             st.warning("Tidak ditemukan makanan alternatif dengan kalori 20% lebih rendah.")
 
-
 # ══════════════════════════════════════════════
-# HALAMAN 5: DATASET PREVIEW
+# HALAMAN 5: DATASET PREVIEW (VERSI AMAN & RAPI)
 # ══════════════════════════════════════════════
 elif halaman == "🗄️ Dataset":
     st.markdown('<div class="main-header"><h1>🗄️ Dataset EatWise</h1><p>Eksplorasi tabel data final hasil pengolahan model AI</p></div>', unsafe_allow_html=True)
     
-    st.dataframe(df_filtered[['name', 'calories', 'proteins', 'fat', 'carbohydrate', 'health_score', 'label_nutrisi', 'status_makanan']], 
-                 use_container_width=True, hide_index=True)
+    # Kolom yang dijamin ada di file eatwise_final_dataset.csv
+    show_cols = ['name', 'calories', 'proteins', 'fat', 'carbohydrate', 'health_score', 'label_nutrisi', 'status_makanan']
+    
+    # Menampilkan dataframe dengan rename agar rapi di layar
+    st.dataframe(
+        df_filtered[show_cols].rename(columns={
+            'name': 'Nama Makanan',
+            'calories': 'Kalori (kcal)',
+            'proteins': 'Protein (g)',
+            'fat': 'Lemak (g)',
+            'carbohydrate': 'Karbohidrat (g)',
+            'health_score': 'Skor Kesehatan',
+            'label_nutrisi': 'Kategori Gizi',
+            'status_makanan': 'Status Rekomendasi'
+        }), 
+        use_container_width=True, 
+        hide_index=True,
+        height=500
+    )
